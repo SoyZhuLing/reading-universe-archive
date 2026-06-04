@@ -190,6 +190,56 @@ body {
 }
 .dir-card h4 { font-size: 16px; margin-bottom: 8px; }
 .dir-card p { font-size: 14px; color: #555; }
+/* Archive Collection cards */
+.archive-card {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.archive-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+  transform: translateY(-2px);
+}
+.archive-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 28px;
+}
+.archive-card-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+.archive-icon {
+  font-size: 32px;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.archive-info {
+  flex: 1;
+  min-width: 0;
+}
+.archive-name {
+  font-size: 18px;
+  color: #2c2c2c;
+  margin-bottom: 2px;
+}
+.archive-name-en {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.archive-desc {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+}
 /* Responsive */
 @media (max-width: 640px) {
   .cover-title { font-size: 28px; letter-spacing: 4px; }
@@ -198,6 +248,9 @@ body {
   .section { padding: 48px 0; }
   .section-title { font-size: 20px; }
   .card { padding: 24px; }
+  .archive-link { padding: 20px; }
+  .archive-card-inner { flex-direction: column; gap: 12px; }
+  .archive-icon { font-size: 28px; }
   .root-box { padding: 32px 24px; }
   .root-question { font-size: 20px; }
   .turning-grid { grid-template-columns: 1fr; }
@@ -218,6 +271,46 @@ body {
 <div class="cover-subtitle">2017–2026</div>
 <div class="cover-line"></div>
 <p class="cover-tagline">我如何在变化中保存一个连续的自己？</p>
+</section>
+<section class="section">
+<div class="section-number">I</div>
+<h2 class="section-title">Archive Collection<br><span style="font-size:14px;color:#999;font-weight:normal;letter-spacing:2px;">阅读档案合集</span></h2>
+<div class="archive-card">
+<a href="reading-biography.html" class="archive-link">
+<div class="archive-card-inner">
+<div class="archive-icon">📖</div>
+<div class="archive-info">
+<div class="archive-name">阅读传记</div>
+<div class="archive-name-en">Reading Biography</div>
+<p class="archive-desc">七年间已读书籍的完整清单与分类汇总，见证阅读广度的变迁。</p>
+</div>
+</div>
+</a>
+</div>
+<div class="archive-card">
+<a href="reading-doppelgangers.html" class="archive-link">
+<div class="archive-card-inner">
+<div class="archive-icon">👥</div>
+<div class="archive-info">
+<div class="archive-name">阅读分身</div>
+<div class="archive-name-en">Reading Doppelgangers</div>
+<p class="archive-desc">六种阅读人格的深度剖析——见证者、倾听者、越境者、求道者、解构者、栖息者。</p>
+</div>
+</div>
+</a>
+</div>
+<div class="archive-card">
+<a href="life-stratum-archive.html" class="archive-link">
+<div class="archive-card-inner">
+<div class="archive-icon">🗺️</div>
+<div class="archive-info">
+<div class="archive-name">人生地层</div>
+<div class="archive-name-en">Life Stratum Archive</div>
+<p class="archive-desc">阅读的七个阶段，从奠基到纪实转向，逐年解析阅读习惯的演变。</p>
+</div>
+</div>
+</a>
+</div>
 </section>
 <section class="section">
 <div class="section-number">II</div>
