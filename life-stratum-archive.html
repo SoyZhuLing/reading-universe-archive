@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Life Stratum Archive — 人生地层档案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,"Noto Serif SC","Source Han Serif SC",serif;background:#f7f4ef;color:#2c2c2c;line-height:1.7}
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative}
+.cover::after{content:"";position:absolute;bottom:0;left:10%;right:10%;height:1px;background:#d0ccc4}
+.cover .label{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:#99948b;margin-bottom:1rem}
+.cover h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:400;letter-spacing:-.02em;color:#2c2c2c}
+.cover .sub{font-size:clamp(1rem,2vw,1.25rem);color:#6b665b;margin-top:.75rem;font-style:italic}
+.cover .anchor{position:absolute;bottom:2.5rem;font-size:.8rem;color:#99948b;animation:float 2s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.section{max-width:48rem;margin:0 auto;padding:4rem 1.5rem}
+.section-head{display:flex;align-items:baseline;gap:.75rem;margin-bottom:2rem}
+.section-head .roman{font-size:1.1rem;font-weight:400;color:#b0a89a;letter-spacing:.05em}
+.section-head h2{font-size:1.35rem;font-weight:400;color:#2c2c2c}
+.section-head .line{flex:1;height:1px;background:#d0ccc4}
+.intro-text{font-size:.95rem;color:#5a5548;line-height:1.9;margin-bottom:2.5rem;padding:1.25rem 1.5rem;background:#fff;border-radius:.75rem;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.stratum{margin-bottom:2rem}
+.stratum-card{border-radius:.75rem;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.04);transition:box-shadow .2s}
+.stratum-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.08)}
+.stratum-bar{height:4px}
+.stratum-body{padding:1.5rem 1.75rem}
+.stratum-meta{display:flex;flex-wrap:wrap;gap:.35rem .75rem;font-size:.78rem;color:#8f8a7d;margin-bottom:.25rem}
+.stratum-meta span{background:#f3f0ea;padding:.1rem .5rem;border-radius:3px}
+.stratum-title{font-size:1.2rem;font-weight:500;color:#2c2c2c;margin-bottom:.2rem}
+.stratum-en{font-size:.82rem;color:#b0a89a;font-style:italic;margin-bottom:.6rem}
+.stratum-question{font-size:.85rem;color:#6b665b;font-style:italic;margin-bottom:.75rem;padding:.5rem .75rem;background:#f7f4ef;border-radius:.4rem;border-left:3px solid}
+.stratum-body-text{font-size:.88rem;color:#4a473e;line-height:1.85;margin-bottom:1rem}
+.stratum-outcomes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem;font-size:.78rem}
+.stratum-outcomes div{padding:.5rem .65rem;border-radius:.4rem}
+.outcome-left{background:#f8f0ef;color:#7a5a55}
+.outcome-lost{background:#f3f0ea;color:#6b665b}
+.outcome-grew{background:#eef3ed;color:#4a6a4a}
+.outcome-label{font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.15rem;opacity:.6}
+@media(max-width:600px){.stratum-outcomes{grid-template-columns:1fr;gap:.4rem}}
+.transition{margin-bottom:1.25rem;padding:1rem 1.25rem;background:#fff;border-radius:.6rem;box-shadow:0 1px 4px rgba(0,0,0,.04);border-left:3px solid #c0b8a8}
+.transition .year{font-size:.72rem;color:#99948b;letter-spacing:.05em}
+.transition h4{font-size:.95rem;font-weight:500;color:#4a473e;margin-bottom:.25rem}
+.transition p{font-size:.85rem;color:#6b665b;line-height:1.8}
+.question-section{max-width:48rem;margin:0 auto;padding:2rem 1.5rem 4rem}
+.question-item{margin-bottom:1.25rem;padding:1.25rem 1.5rem;background:#fff;border-radius:.6rem;box-shadow:0 1px 4px rgba(0,0,0,.04);border-left:3px solid #b0a89a}
+.question-item .q{font-size:.95rem;font-weight:500;color:#2c2c2c;margin-bottom:.2rem}
+.question-item .meta{font-size:.72rem;color:#99948b;margin-bottom:.4rem}
+.question-item p{font-size:.85rem;color:#6b665b;line-height:1.8}
+.root-section{max-width:36rem;margin:0 auto;padding:3rem 1.5rem 4rem;text-align:center}
+.root-section .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#99948b;margin-bottom:.75rem}
+.root-section .root-q{font-size:clamp(1.1rem,2.5vw,1.4rem);font-weight:400;color:#2c2c2c;line-height:1.6;padding:1.5rem;background:#fff;border-radius:.75rem;box-shadow:0 1px 4px rgba(0,0,0,.04);border:1px solid #e5e0d6}
+.footer{text-align:center;padding:3rem 1.5rem;color:#99948b;font-size:.78rem;max-width:36rem;margin:0 auto;line-height:1.7;border-top:1px solid #e5e0d6}
+@media print{body{background:#fff}.cover{min-height:auto;padding:3rem 1rem}.cover::after{display:none}.stratum-card{break-inside:avoid;box-shadow:none;border:1px solid #eee}}
+@media(max-width:600px){.section{padding:2.5rem 1rem}.stratum-body{padding:1.25rem}}
+</style></head><body>
+<div class="cover">
+<div class="label">Life Stratum Archive</div>
+<h1>人生地层档案</h1>
+<div class="sub">2017 — 2026 · 从秘鲁到巴塞罗那到中国</div>
+<div class="anchor">&darr;</div>
+</div>
+<div class="section">
+<div class="section-head"><span class="roman">&mdash;</span><h2>阅读指南</h2><span class="line"></span></div>
+<div class="intro-text">
+这不是一份简历。不是时间线，不是大事记，甚至不是传记。<br><br>
+这是把人生当作地层来考察的尝试。<strong>地层</strong>（stratum）不是一个年份，而是一段具有共同问题、共同身份和共同方向的时期。一个地层由三样东西定义：你在问什么？你是谁？你往哪里去？<br><br>
+以下页面中，地层从最老到最新排列。最老的地层最深，最新地层仍在沉积。每一个地层都留下了它带走的东西和它留下的东西——以及它变成了什么。
+</div>
+</div>
+<div class="section">
+<div class="section-head"><span class="roman">I.</span><h2>异乡人</h2><span class="line"></span></div>
+<div class="stratum">
+<div class="stratum-card">
+<div class="stratum-bar" style="background:#8a7a6a"></div>
+<div class="stratum-body">
+<div class="stratum-meta"><span>2017 - 2019</span><span>秘鲁</span></div>
+<div class="stratum-title">异乡人</div>
+<div class="stratum-en">The Foreigner</div>
+<div class="stratum-question" style="border-left-color:#8a7a6a">我能在完全陌生的世界存活下来吗？</div>
+<div class="stratum-body-text">最深的地层。2017年9月抵达秘鲁，第一次长期离开中国。西班牙语从大学专业变成日常生活——不是在教室里学习，而是在市场上讨价还价、在办公室里开会、在深夜的街头打车。三年的沉积形成了后来所有地层的基础材料：跨文化生存的能力、对陌生的基本信任、作为外国人的自我意识。这三年在微信读书上没有留下数据，但后来所有的阅读——略萨、马尔克斯、迁移文学——都在反复回到这个底层。</div>
+<div class="stratum-outcomes">
+<div class="outcome-left"><div class="outcome-label">留下的</div>独立生存的能力。面对陌生不恐惧的基本信任。西班牙语的日常化。</div>
+<div class="outcome-lost"><div class="outcome-label">失去的</div>对正常人生的预期。在国内生活的日常连续体。</div>
+<div class="outcome-grew"><div class="outcome-label">生长出的</div>后来所有的跨文化经验、西语阅读、迁移文学研究。</div>
+</div></div></div></div>
+</div>
+<div class="section">
+<div class="section-head"><span class="roman">II.</span><h2>阅读者</h2><span class="line"></span></div>
+<div class="stratum">
+<div class="stratum-card">
+<div class="stratum-bar" style="background:#6b8a7a"></div>
+<div class="stratum-body">
+<div class="stratum-meta"><span>2020 - 2021</span><span>秘鲁</span></div>
+<div class="stratum-title">阅读者</div>
+<div class="stratum-en">The Reader</div>
+<div class="stratum-question" style="border-left-color:#6b8a7a">我该如何生活？</div>
+<div class="stratum-body-text">阅读从消遣变成存在方式的地层。疫情让世界静止，阅读填充了所有空间。2021年达到464小时、78本读完——阅读量的峰值。但最重要的不是数量，而是性质的改变：走出唯一真理观让阅读从消费变成了对话。这一年埋下了所有后来的种子：求道者灵魂（哲学追问）、越境者灵魂（第一本西语哈利波特）、见证者灵魂（传记的进入）。</div>
+<div class="stratum-outcomes">
+<div class="outcome-left"><div class="outcome-label">留下的</div>阅读作为核心生活方式的确定。每天阅读的习惯（全年349天）。求道者灵魂的诞生。</div>
+<div class="outcome-lost"><div class="outcome-label">失去的</div>疫情前的社交生活。部分职业发展的连续性。</div>
+<div class="outcome-grew"><div class="outcome-label">生长出的</div>后来的所有阅读方向——哲学、纪实、女性主义、跨语言。</div>
+</div></div></div></div>
+</div>
+<div class="section">
+<div class="section-head"><span class="roman">III.</span><h2>求索者</h2><span class="line"></span></div>
+<div class="stratum">
+<div class="stratum-card">
+<div class="stratum-bar" style="background:#8a7a9a"></div>
+<div class="stratum-body">
+<div class="stratum-meta"><span>2022 - 2023</span><span>秘鲁</span></div>
+<div class="stratum-title">求索者</div>
+<div class="stratum-en">The Seeker</div>
+<div class="stratum-question" style="border-left-color:#8a7a9a">我该往哪里去？</div>
+<div class="stratum-body-text">方向焦虑驱动的地层。尝试考研，然后放弃。两年内完成了一个完整的尝试-失败-重新定向周期。阅读不再是简单的读得多，而是开始分化：上野千鹤子打开了女性主义的方向，略萨打开了结构分析的眼光，战争中没有女性打开了纪实阅读的通道。阅读时长从464h腰斩到239h，但阅读天数只从349降到339——读得更少，但读得更深。</div>
+<div class="stratum-outcomes">
+<div class="outcome-left"><div class="outcome-label">留下的</div>女性主义思想作为核心阅读方向。对结构的分析意识。复调纪实的审美。</div>
+<div class="outcome-lost"><div class="outcome-label">失去的</div>第一次读研尝试。某些关于正常人生路径的预期。</div>
+<div class="outcome-grew"><div class="outcome-label">生长出的</div>巴塞罗那的选择。倾听者和解构者灵魂的成形。放弃之后重新选择的经验。</div>
+</div></div></div></div>
+</div>
+<div class="section">
+<div class="section-head"><span class="roman">IV.</span><h2>整合者</h2><span class="line"></span></div>
+<div class="stratum">
+<div class="stratum-card">
+<div class="stratum-bar" style="background:#6b7a8a"></div>
+<div class="stratum-body">
+<div class="stratum-meta"><span>2024.09 - 2025.07</span><span>巴塞罗那</span></div>
+<div class="stratum-title">整合者</div>
+<div class="stratum-en">The Integrator</div>
+<div class="stratum-question" style="border-left-color:#6b7a8a">这一切如何联系在一起？</div>
+<div class="stratum-body-text">人生所有线索的汇流层。巴塞罗那的硕士阶段不是一次新的出发，而是一次回望和整合。西班牙语（2017年开始的专业+生活积累）、阅读（2020年开始的核心习惯）、文学分析能力（2022年开始的结构训练）、迁移经历（2017年开始的异乡人身份）——在TFM关于迁移文学的研究中全部交汇。西语阅读从偶尔尝试变为常规渠道，25小时读完 Proyecto Hail Mary 成为最深的阅读体验之一。</div>
+<div class="stratum-outcomes">
+<div class="outcome-left"><div class="outcome-label">留下的</div>学术身份的完成。迁移文学的知识框架。西语阅读的常态化。</div>
+<div class="outcome-lost"><div class="outcome-label">失去的</div>在巴塞罗那建立的日常。学术环境的身份庇护。</div>
+<div class="outcome-grew"><div class="outcome-label">生长出的</div>Reading Universe 项目（归档冲动）。纪实与非虚构的阅读方向。</div>
+</div></div></div></div>
+</div>
+<div class="section">
+<div class="section-head"><span class="roman">V.</span><h2>归来者</h2><span class="line"></span></div>
+<div class="stratum">
+<div class="stratum-card">
+<div class="stratum-bar" style="background:#9a7a6a"></div>
+<div class="stratum-body">
+<div class="stratum-meta"><span>2025.09 - 至今</span><span>中国</span></div>
+<div class="stratum-title">归来者</div>
+<div class="stratum-en">The Returned</div>
+<div class="stratum-question" style="border-left-color:#9a7a6a">我如何在变化中保存一个连续的自己？</div>
+<div class="stratum-body-text">仍在沉积中的最浅地层。2025年7月毕业回国，9月重新进入职场。七年海外生活后回到起点，但起点已经变了。阅读进入文学核心+非虚构周边的稳定结构，纪实小说跃居第二分类。同时开始 Reading Universe 项目——不是回忆，而是归档：试图用档案的形式整理七年的阅读和人生。</div>
+<div class="stratum-outcomes">
+<div class="outcome-left"><div class="outcome-label">留下的</div>还在沉积中</div>
+<div class="outcome-lost"><div class="outcome-label">失去的</div>尚未结束</div>
+<div class="outcome-grew"><div class="outcome-label">生长出的</div>尚未结束</div>
+</div></div></div></div>
+</div>
+<div class="section">
+<div class="section-head"><span class="roman">&mdash;</span><h2>转折</h2><span class="line"></span></div>
+<div class="intro-text" style="margin-bottom:1.5rem">
+每一个地层的边界由一次转折标记。以下是五次关键的转折——不是事件列表，而是沉积方向改变的瞬间。
+</div>
+<div class="transition">
+<div class="year">2017</div>
+<h4>离开中国</h4>
+<p>不是在去另一个国家生活的意义上重要，而是在成为总是在别处的人的意义上重要。这次离开之后，归属变成了一个复杂的问题。</p>
+</div>
+<div class="transition">
+<div class="year">2020</div>
+<h4>阅读重启</h4>
+<p>不是开始多读书那么简单。而是书从娱乐变成了回答个人问题的工具。这个转变决定了后来七年的阅读性质。</p>
+</div>
+<div class="transition">
+<div class="year">2023</div>
+<h4>放弃与转向</h4>
+<p>第一次认真尝试一件大事并放弃它。这次放弃的经验——不是失败，是转向——让后来的巴塞罗那选择成为可能。</p>
+</div>
+<div class="transition">
+<div class="year">2024</div>
+<h4>汇流</h4>
+<p>巴塞罗那不是新的出发，而是所有线索的汇流。西班牙语、阅读、文学分析、跨文化经验——在TFM关于迁移文学的研究中全部交汇。</p>
+</div>
+<div class="transition">
+<div class="year">2025</div>
+<h4>归来</h4>
+<p>不是回家。是把一个在秘鲁和巴塞罗那形成的人，放回中国的语境里。七年前离开的人已经不存在，回来的是另一个人。</p>
+</div>
+</div>
+<div class="root-section">
+<div class="label">根问题</div>
+<div class="root-q">&#x201c;我如何在变化中保存一个连续的自己？&#x201d;</div>
+</div>
+<div class="section">
+<div class="section-head"><span class="roman">&mdash;</span><h2>贯穿地层的问题</h2><span class="line"></span></div>
+<div class="question-item">
+<div class="q">我能在完全陌生的世界存活下来吗？</div>
+<div class="meta">2017 - 2024 / 已基本解决</div>
+<p>2017年抵达秘鲁时出现，是最早的问题。到2024年离开秘鲁时已经不需要再问。但它的变体从未消失：我如何在新环境中保持功能？每次迁移——国家、城市、职场——这个问题都会以新的形式重新出现。</p>
+</div>
+<div class="question-item">
+<div class="q">我该如何生活？</div>
+<div class="meta">2020 - 至今 / 仍在演化</div>
+<p>2020年疫情中出现的根本问题。从未被最终回答，但形式在变化：2020年是哲学性的（走出唯一真理观），2022年是方向性的（该往哪里去），2024年是整合性的（这一切如何联系），2026年是保存性的（如何在变化中保持连续）。问题还是同一个问题，但提问的方式越来越复杂。</p>
+</div>
+<div class="question-item">
+<div class="q">我该往哪里去？</div>
+<div class="meta">2022 - 2024 / 暂时回答</div>
+<p>2022年方向焦虑中浮现，在巴塞罗那被暂时回答（学术方向）。2025年回国后重新出现但形式变了——不再是该读什么专业，而是该过什么样的生活。</p>
+</div>
+<div class="question-item">
+<div class="q">我如何在变化中保存一个连续的自己？</div>
+<div class="meta">2025 - 至今 / 当前最活跃</div>
+<p>当前最活跃的问题。2025年回国后出现——当所有外部坐标（国家、语言、朋友圈、生活节奏）都改变了，什么是不变的？Reading Universe 项目本身就是对这个问题的实践：不是回忆，而是归档。</p>
+</div>
+</div>
+<div class="footer">
+Life Stratum Archive · 人生地层档案<br>
+基于个人经历与阅读数据 · 2017&ndash;2026<br><br>
+每一个地层都没有真正消失。它们只是沉积在下面，成为后来所有地层的基础。
+</div>
+</body></html>

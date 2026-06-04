@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阅读自传 · 2016-2026</title>
+<style>:root{--bg:#faf9f7;--text:#1a1a1a;--text2:#6b6b6b;--border:#e5e3df;--card:#f2f0ec;--accent:#8b7355;--accent2:#c9a96e;--line:#d4cfc5}
+@media(prefers-color-scheme:dark){:root{--bg:#141413;--text:#e8e6e1;--text2:#8f8d86;--border:#2c2b28;--card:#1f1e1c;--accent:#a8906e;--accent2:#b89b5e;--line:#3a3834}}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative}
+.cover::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent2),var(--accent),var(--accent2))}
+.cover-label{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);margin-bottom:2rem}
+.cover h1{font-size:clamp(2.5rem,8vw,6rem);font-weight:600;letter-spacing:-.03em;line-height:1.1;margin-bottom:1rem}
+.cover-sub{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--text2);max-width:30rem;margin:1.5rem auto 0;line-height:1.6}
+.cover-stats{display:flex;gap:3rem;flex-wrap:wrap;justify-content:center;margin-top:3rem}
+.cover-stat{text-align:center}
+.cover-stat .num{font-size:clamp(2rem,5vw,3.5rem);font-weight:600;letter-spacing:-.02em;color:var(--accent2)}
+.cover-stat .label{font-size:.8rem;color:var(--text2);margin-top:.25rem;letter-spacing:.03em}
+.cover-footer{position:absolute;bottom:2rem;color:var(--text2);font-size:.75rem;letter-spacing:.1em}
+section{padding:5rem 1.5rem;max-width:64rem;margin:0 auto}
+section h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600;letter-spacing:-.02em;margin-bottom:.5rem}
+section .sub{font-size:1rem;color:var(--text2);margin-bottom:3rem;max-width:36rem}
+.phase{opacity:0;transform:translateY(2rem);transition:all .8s ease;margin-bottom:3rem}
+.phase.visible{opacity:1;transform:translateY(0)}
+.phase-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:.25rem}
+.phase-year{font-size:2.5rem;font-weight:600;color:var(--accent2);letter-spacing:-.03em;line-height:1}
+.phase-name{font-size:1.1rem;font-weight:500;color:var(--text)}
+.phase-metrics{font-size:.85rem;color:var(--text2);margin-bottom:.75rem}
+.phase-metrics strong{color:var(--text);font-weight:500}
+.phase-desc{font-size:.9rem;color:var(--text2);line-height:1.8;max-width:36rem}
+.timeline{position:relative;padding-left:1.5rem}
+.timeline::before{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:var(--line)}
+.phase-wrap{position:relative;padding-left:1rem}
+.phase-wrap::before{content:"";position:absolute;left:-1.65rem;top:.6rem;width:.7rem;height:.7rem;border-radius:50%;background:var(--accent2);border:2px solid var(--bg);z-index:1}
+.phase-cats{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+.cat-tag{padding:.2rem .65rem;border-radius:999px;font-size:.7rem;border:1px solid var(--border);color:var(--text2)}
+.cat-tag.lead{background:var(--accent2);color:var(--bg);border-color:var(--accent2)}
+.map-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr));gap:1.25rem;margin-top:2rem}
+.region-card{padding:1.25rem;border-radius:.75rem;background:var(--card)}
+.region-card h3{font-size:.95rem;font-weight:500;margin-bottom:.15rem}
+.region-card .r-num{font-size:1.8rem;font-weight:600;color:var(--accent2);line-height:1.2}
+.region-card .r-detail{font-size:.78rem;color:var(--text2);margin-top:.15rem}
+.auth-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));gap:.85rem;margin-top:2rem}
+.auth-card{padding:1rem;border-radius:.75rem;background:var(--card)}
+.auth-card .a-name{font-size:.9rem;font-weight:500}
+.auth-card .a-meta{font-size:.72rem;color:var(--text2);margin-top:.15rem}
+.tbl-wrap{overflow-x:auto;margin-top:2rem}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:.82rem;min-width:36rem}
+.tbl-wrap th{padding:.6rem .5rem;text-align:left;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border)}
+.tbl-wrap td{padding:.6rem .5rem;border-bottom:1px solid var(--border)}
+.cat-row{display:flex;align-items:center;gap:.75rem}
+.cat-row .cl{min-width:4rem;font-weight:500}
+.cat-row .cr{color:var(--text2);font-size:.75rem}
+.cat-row .bar{flex:1;height:.4rem;border-radius:999px;background:var(--card);overflow:hidden}
+.cat-row .bar .fill{height:100%;border-radius:999px;background:var(--accent2)}
+.traits{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:1.25rem;margin-top:2rem}
+.trait-card{padding:1.5rem;border-radius:.75rem;background:var(--card)}
+.trait-card h3{font-size:.95rem;font-weight:500;margin-bottom:.15rem}
+.trait-card .ev{font-size:.72rem;color:var(--accent2);margin-bottom:.5rem}
+.trait-card p{font-size:.82rem;color:var(--text2);line-height:1.7}
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:1.25rem;margin-top:2rem}
+.book-card{padding:1.25rem;border-radius:.75rem;background:var(--card)}
+.book-card .b-title{font-size:.95rem;font-weight:500;margin-bottom:.15rem}
+.book-card .b-author{font-size:.78rem;color:var(--text2);margin-bottom:.35rem}
+.book-card .b-stat{font-size:.72rem;color:var(--accent2);margin-bottom:.5rem}
+.book-card .b-desc{font-size:.78rem;color:var(--text2);line-height:1.6}
+.summary-sec{text-align:center;max-width:36rem;margin:0 auto;padding:5rem 1.5rem}
+.summary-sec p{font-size:1.05rem;color:var(--text2);line-height:2;margin-bottom:1.5rem}
+.summary-sec .sig{font-size:.8rem;color:var(--accent2);margin-top:2rem}
+.fade-in{opacity:0;transform:translateY(1.5rem);transition:all .8s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+.section-divider{width:2rem;height:1px;background:var(--accent2);margin:1rem 0 2rem}
+@media(max-width:600px){section{padding:3rem 1.25rem}.cover-stats{gap:2rem}.map-grid{grid-template-columns:1fr 1fr}.auth-grid{grid-template-columns:1fr 1fr}.traits{grid-template-columns:1fr}.book-grid{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<div class="cover">
+<div class="cover-label">Reading Biography</div>
+<h1>阅读自传</h1>
+<p class="cover-sub">一位读者的七年旅程 · 2020 — 2026</p>
+<div class="cover-stats">
+<div class="cover-stat"><div class="num">2,064</div><div class="label">阅读小时</div></div>
+<div class="cover-stat"><div class="num">2,173</div><div class="label">阅读天数</div></div>
+<div class="cover-stat"><div class="num">1,435</div><div class="label">读过书籍</div></div>
+<div class="cover-stat"><div class="num">8,017</div><div class="label">笔记条数</div></div>
+</div>
+<div class="cover-footer">基于微信读书数据 · 2016年注册</div>
+</div>
+<section>
+<h2>阅读时间线</h2>
+<p class="sub">七年可以读完一个世界。以下七个阶段，构成了这段阅读旅程的全貌。</p>
+<div class="section-divider"></div>
+<div class="timeline">
+<div class="phase-wrap fade-in">
+<div class="phase">
+<div class="phase-header">
+<div class="phase-year">2020</div>
+<div class="phase-name">奠基期</div>
+</div>
+<div class="phase-metrics"><strong>338h</strong> 阅读 · 259天 · 108本 读过</div>
+<div class="phase-desc">在文学基础上广泛测试兴趣——科幻、个人成长、悬疑推理同时出现。</div>
+</div>
+</div>
+<div class="phase-wrap fade-in">
+<div class="phase">
+<div class="phase-header">
+<div class="phase-year">2021</div>
+<div class="phase-name">爆发期</div>
+</div>
+<div class="phase-metrics"><strong>464h</strong> 阅读 · 349天 · 202本 读过</div>
+<div class="phase-desc">悬疑推理爆发式增长（+288%），阅读量跃升37%。哈利波特系列集中阅读。</div>
+</div>
+</div>
+<div class="phase-wrap fade-in">
+<div class="phase">
+<div class="phase-header">
+<div class="phase-year">2022</div>
+<div class="phase-name">调整期</div>
+</div>
+<div class="phase-metrics"><strong>239h</strong> 阅读 · 339天 · 179本 读过</div>
+<div class="phase-desc">总时长下降49%，但阅读天数仅降3%。拉美文学兴起，类型娱乐收缩。</div>
+</div>
+</div>
+<div class="phase-wrap fade-in">
+<div class="phase">
+<div class="phase-header">
+<div class="phase-year">2023</div>
+<div class="phase-name">扩张期</div>
+</div>
+<div class="phase-metrics"><strong>360h</strong> 阅读 · 360天 · 231本 读过</div>
+<div class="phase-desc">阅读广度峰值。历史唯一进前3。东野圭吾和上野千鹤子各5本。</div>
+</div>
+</div>
+<div class="phase-wrap fade-in">
+<div class="phase">
+<div class="phase-header">
+<div class="phase-year">2024</div>
+<div class="phase-name">回落期</div>
+</div>
+<div class="phase-metrics"><strong>230h</strong> 阅读 · 352天 · 174本 读过</div>
+<div class="phase-desc">阅读时长降至低点。西班牙语原版阅读形成规模。</div>
+</div>
+</div>
+<div class="phase-wrap fade-in">
+<div class="phase">
+<div class="phase-header">
+<div class="phase-year">2025</div>
+<div class="phase-name">重建期</div>
+</div>
+<div class="phase-metrics"><strong>300h</strong> 阅读 · 358天 · 158本 读过</div>
+<div class="phase-desc">文学创历史新高（127h）。非虚构占比超60%。</div>
+</div>
+</div>
+<div class="phase-wrap fade-in">
+<div class="phase">
+<div class="phase-header">
+<div class="phase-year">2026</div>
+<div class="phase-name">纪实转向</div>
+</div>
+<div class="phase-metrics"><strong>133h</strong> 阅读 · 149天/半年 · 68本 读过</div>
+<div class="phase-desc">纪实小说跃居第二。文学+非虚构两极格局确立。</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2>阅读地图</h2>
+<p class="sub">日语翻译文学和西班牙语原版构成了跨语言阅读的两翼。基于有笔记记录的书籍中可识别国籍的部分（覆盖率约47%）。</p>
+<div class="section-divider"></div>
+<div class="map-grid">
+<div class="region-card fade-in">
+<h3>日本</h3>
+<div class="r-num">~90本</div>
+<div class="r-detail">伊坂幸太郎、东野圭吾、上野千鹤子、村上春树</div>
+</div>
+<div class="region-card fade-in">
+<h3>英国</h3>
+<div class="r-num">~35本</div>
+<div class="r-detail">J.K.罗琳、石黑一雄、弗吉尼亚·伍尔夫</div>
+</div>
+<div class="region-card fade-in">
+<h3>中国</h3>
+<div class="r-num">~30本</div>
+<div class="r-detail">刘慈欣、马伯庸、李娟、陈嘉映</div>
+</div>
+<div class="region-card fade-in">
+<h3>美国</h3>
+<div class="r-num">~25本</div>
+<div class="r-detail">安迪·威尔、乔丹·彼得森、卡尔·萨根</div>
+</div>
+<div class="region-card fade-in">
+<h3>秘鲁</h3>
+<div class="r-num">~15本</div>
+<div class="r-detail">马里奥·巴尔加斯·略萨</div>
+</div>
+<div class="region-card fade-in">
+<h3>哥伦比亚</h3>
+<div class="r-num">~10本</div>
+<div class="r-detail">加西亚·马尔克斯</div>
+</div>
+<div class="region-card fade-in">
+<h3>韩国</h3>
+<div class="r-num">~10本</div>
+<div class="r-detail">金爱烂</div>
+</div>
+<div class="region-card fade-in">
+<h3>法国</h3>
+<div class="r-num">~8本</div>
+<div class="r-detail">西蒙娜·德·波伏瓦</div>
+</div>
+<div class="region-card fade-in">
+<h3>阿根廷</h3>
+<div class="r-num">~5本</div>
+<div class="r-detail">豪尔赫·路易斯·博尔赫斯</div>
+</div>
+</div>
+</section>
+<section>
+<h2>作者星群</h2>
+<p class="sub">有些作者陪伴了一年，有些陪伴了七年。以下是有笔记记录最多的作者。</p>
+<div class="section-divider"></div>
+<div class="auth-grid">
+<div class="auth-card fade-in">
+<div class="a-name">伊坂幸太郎</div>
+<div class="a-meta">日本 · 11本</div>
+<div class="a-meta">2020-2025</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">东野圭吾</div>
+<div class="a-meta">日本 · 11本</div>
+<div class="a-meta">2022-2024</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">马里奥·巴尔加斯·略萨</div>
+<div class="a-meta">秘鲁 · 9本</div>
+<div class="a-meta">2022-2026</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">上野千鹤子</div>
+<div class="a-meta">日本 · 8本</div>
+<div class="a-meta">2022-2025</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">J.K.罗琳</div>
+<div class="a-meta">英国 · 7本</div>
+<div class="a-meta">2021</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">刘慈欣</div>
+<div class="a-meta">中国 · 7本</div>
+<div class="a-meta">2020-2021</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">叶真中显</div>
+<div class="a-meta">日本 · 6本</div>
+<div class="a-meta">2024-2025</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">金爱烂</div>
+<div class="a-meta">韩国 · 6本</div>
+<div class="a-meta">2023</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">加西亚·马尔克斯</div>
+<div class="a-meta">哥伦比亚 · 5本</div>
+<div class="a-meta">2021-2023</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">村上春树</div>
+<div class="a-meta">日本 · 4本</div>
+<div class="a-meta">2020-2024</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">博尔赫斯</div>
+<div class="a-meta">阿根廷 · 4本</div>
+<div class="a-meta">2024</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">马伯庸</div>
+<div class="a-meta">中国 · 4本</div>
+<div class="a-meta">2023</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">李娟</div>
+<div class="a-meta">中国 · 4本</div>
+<div class="a-meta">2024</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">弗吉尼亚·伍尔夫</div>
+<div class="a-meta">英国 · 3本</div>
+<div class="a-meta">2024</div>
+</div>
+<div class="auth-card fade-in">
+<div class="a-name">石黑一雄</div>
+<div class="a-meta">英国 · 3本</div>
+<div class="a-meta">2024</div>
+</div>
+</div>
+</section><section>
+<h2>阅读主题迁移</h2>
+<p class="sub">七年中，阅读的核心兴趣发生了系统性转移。以下是八个主要分类的年度占比变化。</p>
+<div class="section-divider"></div>
+<div class="tbl-wrap">
+<table>
+<tr><th>分类</th><th>趋势</th>
+<th>2020</th>
+<th>2021</th>
+<th>2022</th>
+<th>2023</th>
+<th>2024</th>
+<th>2025</th>
+<th>2026</th>
+</tr>
+<tr>
+<td class="cat-row"><span class="cl">文学</span></td>
+<td style="color:var(--text2);font-size:.75rem">→</td>
+<td><strong>29.6%</strong></td>
+<td><strong>30.6%</strong></td>
+<td><strong>39.0%</strong></td>
+<td><strong>29.3%</strong></td>
+<td><strong>34.7%</strong></td>
+<td><strong>42.8%</strong></td>
+<td><strong>43.8%</strong></td>
+</tr>
+<tr>
+<td class="cat-row"><span class="cl">悬疑推理</span></td>
+<td style="color:var(--text2);font-size:.75rem">↘</td>
+<td style="font-size:.78rem">10.5%</td>
+<td style="font-size:.78rem">17.4%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">12.9%</td>
+<td style="font-size:.78rem">6.6%</td>
+<td style="font-size:.78rem">6.4%</td>
+<td style="color:var(--text2);font-size:.75rem">—</td>
+</tr>
+<tr>
+<td class="cat-row"><span class="cl">社会小说</span></td>
+<td style="color:var(--text2);font-size:.75rem">↗</td>
+<td style="font-size:.78rem">3.0%</td>
+<td style="font-size:.78rem">7.3%</td>
+<td style="font-size:.78rem">12.8%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">7.9%</td>
+<td style="font-size:.78rem">8.4%</td>
+<td style="font-size:.78rem">5.3%</td>
+</tr>
+<tr>
+<td class="cat-row"><span class="cl">个人成长</span></td>
+<td style="color:var(--text2);font-size:.75rem">↗↘</td>
+<td style="font-size:.78rem">17.8%</td>
+<td style="font-size:.78rem">7.6%</td>
+<td style="font-size:.78rem">3.6%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">10.1%</td>
+<td style="font-size:.78rem">8.3%</td>
+</tr>
+<tr>
+<td class="cat-row"><span class="cl">科幻小说</span></td>
+<td style="color:var(--text2);font-size:.75rem">↘</td>
+<td style="font-size:.78rem">11.2%</td>
+<td style="font-size:.78rem">9.0%</td>
+<td style="font-size:.78rem">4.0%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">4.0%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">5.3%</td>
+</tr>
+<tr>
+<td class="cat-row"><span class="cl">影视原著</span></td>
+<td style="color:var(--text2);font-size:.75rem">⇢</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">4.5%</td>
+<td style="font-size:.78rem">8.0%</td>
+<td style="font-size:.78rem">7.0%</td>
+<td style="font-size:.78rem">11.4%</td>
+<td style="font-size:.78rem">4.0%</td>
+<td style="font-size:.78rem">2.0%</td>
+</tr>
+<tr>
+<td class="cat-row"><span class="cl">纪实小说</span></td>
+<td style="color:var(--text2);font-size:.75rem">↗</td>
+<td style="font-size:.78rem">1.0%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">5.8%</td>
+<td style="font-size:.78rem">4.0%</td>
+<td style="font-size:.78rem">3.0%</td>
+<td style="font-size:.78rem">3.0%</td>
+<td style="font-size:.78rem">9.1%</td>
+</tr>
+<tr>
+<td class="cat-row"><span class="cl">社会文化</span></td>
+<td style="color:var(--text2);font-size:.75rem">△</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">4.0%</td>
+<td style="font-size:.78rem">12.3%</td>
+<td style="font-size:.78rem">7.9%</td>
+<td style="font-size:.78rem">2.0%</td>
+<td style="font-size:.78rem">2.0%</td>
+</tr>
+</table>
+<div style="margin-top:2rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:1rem">
+<div class="trait-card" style="background:var(--card);border-radius:.75rem;padding:1.25rem">
+<h3 style="font-size:.9rem;font-weight:500;margin-bottom:.15rem">文学</h3>
+<div class="ev">七年第一，从未动摇</div>
+<p style="font-size:.78rem;color:var(--text2);line-height:1.6">从45小时到127小时，占比稳定在30-44%之间。绝对的阅读锚点。</p>
+</div>
+<div class="trait-card" style="background:var(--card);border-radius:.75rem;padding:1.25rem">
+<h3 style="font-size:.9rem;font-weight:500;margin-bottom:.15rem">悬疑推理</h3>
+<div class="ev">先升后降</div>
+<p style="font-size:.78rem;color:var(--text2);line-height:1.6">2021年峰值62h（+288%），此后逐年收缩。曾经的第二支柱。</p>
+</div>
+<div class="trait-card" style="background:var(--card);border-radius:.75rem;padding:1.25rem">
+<h3 style="font-size:.9rem;font-weight:500;margin-bottom:.15rem">纪实小说</h3>
+<div class="ev">持续上升</div>
+<p style="font-size:.78rem;color:var(--text2);line-height:1.6">从2021年首次出现到2026年第二。五年持续增长的趋势性兴趣。</p>
+</div>
+<div class="trait-card" style="background:var(--card);border-radius:.75rem;padding:1.25rem">
+<h3 style="font-size:.9rem;font-weight:500;margin-bottom:.15rem">个人成长</h3>
+<div class="ev">周期性回归</div>
+<p style="font-size:.78rem;color:var(--text2);line-height:1.6">2020-2021强势，消失三年后2025回归。周期性非虚构需求。</p>
+</div>
+<div class="trait-card" style="background:var(--card);border-radius:.75rem;padding:1.25rem">
+<h3 style="font-size:.9rem;font-weight:500;margin-bottom:.15rem">科幻小说</h3>
+<div class="ev">早期兴趣</div>
+<p style="font-size:.78rem;color:var(--text2);line-height:1.6">2020-2021为核心兴趣，此后逐渐退出前五。完成阶段性角色。</p>
+</div>
+<div class="trait-card" style="background:var(--card);border-radius:.75rem;padding:1.25rem">
+<h3 style="font-size:.9rem;font-weight:500;margin-bottom:.15rem">历史</h3>
+<div class="ev">单年爆发</div>
+<p style="font-size:.78rem;color:var(--text2);line-height:1.6">2023年唯一一次进入前三（48h），之后未持续。</p>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2>阅读人格画像</h2>
+<p class="sub">数据会说话。以下五个特征，来自七年阅读行为的真实记录。</p>
+<div class="section-divider"></div>
+<div class="traits">
+<div class="trait-card fade-in">
+<h3>文学锚点者</h3>
+<div class="ev">7/7年文学第一</div>
+<p>无论其他兴趣如何波动，文学始终占据每年阅读量的首位。七年间文学阅读时长从45小时增长到127小时，占比从未低于29%。这是一位将文学作为阅读基座的读者。</p>
+</div>
+<div class="trait-card fade-in">
+<h3>跨语种探险家</h3>
+<div class="ev">西班牙语原版 + 日语翻译文学</div>
+<p>书架中同时存在日语翻译文学（伊坂幸太郎、东野圭吾、上野千鹤子）和西班牙语原版（Proyecto Hail Mary、Yo tuve un sueno）。跨语言阅读从偶发变为常规，在2024年形成规模。</p>
+</div>
+<div class="trait-card fade-in">
+<h3>长跑型读者</h3>
+<div class="ev">2,173天累计</div>
+<p>七年中五年阅读天数超过339天（93%），最低年份也有259天。2022年阅读时长腰斩但天数仅降3%。习惯比时长更稳定——这是阅读作为一种日常仪式而非阶段性冲刺的证明。</p>
+</div>
+<div class="trait-card fade-in">
+<h3>从故事到认知</h3>
+<div class="ev">非虚构占比持续增长</div>
+<p>2020-2021年由类型小说驱动（悬疑推理+288%），2024-2026年非虚构成为主导。纪实小说从2021年首次出现到2026年成为第二分类。阅读驱动力完成了从情节消费到认知获取的迁移。</p>
+</div>
+<div class="trait-card fade-in">
+<h3>摘录者与思考者</h3>
+<div class="ev">8,017条笔记</div>
+<p>73.5%划线 + 25.9%想法 + 0.6%书签。每读四段摘录就有一条自主想法。非虚构类书籍的笔记密度显著高于虚构类。最高的笔记密度出现在哲学/心理自助类（《走出唯一真理观》268条）。</p>
+</div>
+</div>
+</section>
+<section>
+<h2>标记最多的书</h2>
+<p class="sub">这些书留下了最多的阅读痕迹——划线、想法、书签。</p>
+<div class="section-divider"></div>
+<div class="book-grid">
+<div class="book-card fade-in">
+<div class="b-title">走出唯一真理观</div>
+<div class="b-author">陈嘉映</div>
+<div class="b-stat">268条笔记</div>
+<div class="b-desc">211条划线 + 55条想法。哲学精读的极致：平均每1.3页就有一条标记。</div>
+</div>
+<div class="book-card fade-in">
+<div class="b-title">人生十二法则</div>
+<div class="b-author">乔丹·彼得森</div>
+<div class="b-stat">240条笔记</div>
+<div class="b-desc">207条划线 + 23条想法。划线密集（9:1），典型的收集式阅读。</div>
+</div>
+<div class="book-card fade-in">
+<div class="b-title">独自上路</div>
+<div class="b-author">哈维尔·萨莫拉</div>
+<div class="b-stat">197条笔记</div>
+<div class="b-desc">170条划线 + 25条想法。一个九岁男孩的边境历险，叙事中持续触发标记。</div>
+</div>
+<div class="book-card fade-in">
+<div class="b-title">Yo tuve un sueno</div>
+<div class="b-author">Juan Pablo Villalobos</div>
+<div class="b-stat">193条笔记</div>
+<div class="b-desc">169条划线 + 20条想法。西班牙语原版阅读中笔记密度最高的书。</div>
+</div>
+<div class="book-card fade-in">
+<div class="b-title">当下的力量</div>
+<div class="b-author">埃克哈特·托利</div>
+<div class="b-stat">134条笔记</div>
+<div class="b-desc">117条划线 + 14条想法。灵修类文本的精读模式。</div>
+</div>
+<div class="book-card fade-in">
+<div class="b-title">十年一觉电影梦</div>
+<div class="b-author">张靓蓓/李安</div>
+<div class="b-stat">128条笔记</div>
+<div class="b-desc">103条划线 + 56条想法。想法比例最高（划线/想法比1.8:1），触发最多个人回应。</div>
+</div>
+<div class="book-card fade-in">
+<div class="b-title">Apuntes sobre un planeta estresado</div>
+<div class="b-author">Matt Haig</div>
+<div class="b-stat">108条笔记</div>
+<div class="b-desc">96条划线 + 9条想法。西班牙语原版，环保主题。</div>
+</div>
+<div class="book-card fade-in">
+<div class="b-title">与焦虑和解</div>
+<div class="b-author">汪淑媛</div>
+<div class="b-stat">105条笔记</div>
+<div class="b-desc">91条划线 + 12条想法。心理自助类精读。</div>
+</div>
+</div>
+</section>
+<section class="summary-sec">
+<h2>七年</h2>
+<div class="section-divider" style="margin:1rem auto"></div>
+<p>2020年，阅读从好奇开始。科幻、悬疑、哲学——同时出现在起点。</p>
+<p>2021年，故事消费驱动一切。哈利波特和悬疑推理占据了最长的阅读时间。</p>
+<p>2022年，时间减半，但习惯未断。从沉浸式转为碎片化，拉美文学成为新的方向。</p>
+<p>2023年，广度达到峰值——历史与社会文化短暂但猛烈地扩张了阅读版图。</p>
+<p>2024年，西班牙语原版成为日常。阅读不再依赖翻译。</p>
+<p>2025年，非虚构比例首超虚构。阅读的目的在悄悄变化。</p>
+<p>2026年，纪实小说跃居第二。文学为核心、非虚构为周边的两极格局成型。</p>
+<p style="margin-top:2rem;color:var(--text)">从故事到认知，从翻译到原版，从泛读到深耕。</p>
+<p style="color:var(--text)">七年，2,064小时，1,435本书。</p>
+<p style="color:var(--text2)">阅读不是一个爱好，而是一种生活的方式。</p>
+<div class="sig">基于微信读书数据 · 2020 — 2026</div>
+</section>
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll(".fade-in").forEach(el => observer.observe(el));
+document.addEventListener("DOMContentLoaded", function() {
+  setTimeout(function() {
+    document.querySelectorAll(".fade-in").forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add("visible");
+      }
+    });
+  }, 200);
+});
+</script>
+</body>
+</html>

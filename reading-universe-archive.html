@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Universe Archive</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #f5f3ef;
+  font-family: "Georgia", "Noto Serif SC", "Source Han Serif SC", serif;
+  color: #1a1a1a;
+  line-height: 1.7;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrapper {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.section {
+  padding: 80px 0;
+  border-bottom: 1px solid #e2ddd4;
+}
+.section:last-child { border-bottom: none; }
+.section-number {
+  font-family: "Georgia", serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #9a8c7e;
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 24px;
+  font-weight: normal;
+  color: #2c2c2c;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+/* Cover */
+.cover {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 100px 24px 80px;
+  border-bottom: none;
+}
+.cover-title {
+  font-size: 42px;
+  font-weight: normal;
+  letter-spacing: 6px;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+.cover-subtitle {
+  font-size: 18px;
+  color: #8a7e72;
+  letter-spacing: 8px;
+  margin-bottom: 48px;
+}
+.cover-tagline {
+  font-size: 20px;
+  color: #6a5e52;
+  font-style: italic;
+  max-width: 500px;
+}
+.cover-line {
+  width: 40px;
+  height: 1px;
+  background: #c0b4a6;
+  margin: 40px auto;
+}
+/* Cards */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 36px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03);
+  transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04); }
+.card-soul { border-left: 4px solid; }
+.card-soul .soul-name { font-size: 20px; margin-bottom: 4px; }
+.card-soul .soul-name-en { font-size: 14px; color: #888; margin-bottom: 16px; }
+.card p { margin-bottom: 14px; color: #3a3a3a; font-size: 15px; }
+.card p:last-child { margin-bottom: 0; }
+.soul-question {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: #f8f6f2;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #5a4e42;
+}
+.soul-question span { font-weight: bold; }
+.soul-books {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.soul-books span {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: #f5f3ef;
+  border-radius: 4px;
+  color: #5a4e42;
+}
+/* Stratum layers */
+.stratum {
+  position: relative;
+  padding: 24px 28px;
+  margin-bottom: 4px;
+  border-radius: 0;
+  cursor: default;
+}
+.stratum:first-child { border-radius: 12px 12px 0 0; }
+.stratum:last-child { border-radius: 0 0 12px 12px; }
+.stratum .layer-label { font-size: 13px; color: #666; margin-bottom: 4px; }
+.stratum .layer-title { font-size: 17px; margin-bottom: 6px; }
+.stratum .layer-desc { font-size: 14px; opacity: 0.85; }
+.stratum-0 { background: #e8e0d6; }
+.stratum-1 { background: #ddd4c8; }
+.stratum-2 { background: #d0c6b8; }
+.stratum-3 { background: #c4b8a8; }
+.stratum-4 { background: #b8aa98; color: #fff; }
+.stratum-5 { background: #a89a88; color: #fff; }
+.stratum-6 { background: #9a8a78; color: #fff; }
+.stratum-0 .layer-desc, .stratum-1 .layer-desc, .stratum-2 .layer-desc, .stratum-3 .layer-desc { color: #3a3a3a; }
+.stratum-4 .layer-desc, .stratum-5 .layer-desc, .stratum-6 .layer-desc { color: #eee; }
+.stratum-4 .layer-label, .stratum-5 .layer-label, .stratum-6 .layer-label { color: #ccc; }
+/* Questions */
+.find {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.find-q { font-size: 19px; margin-bottom: 8px; }
+.find-meta { font-size: 13px; color: #999; margin-bottom: 12px; }
+.find-desc { font-size: 15px; color: #444; }
+/* Turning points */
+.turning {
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.turning h4 { font-size: 17px; margin-bottom: 4px; }
+.turning .turning-meta { font-size: 13px; color: #999; margin-bottom: 14px; }
+.turning-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.turning-item h5 { font-size: 13px; color: #999; margin-bottom: 4px; font-weight: normal; }
+.turning-item p { font-size: 14px; color: #444; }
+/* Root question */
+.root-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 48px 40px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.root-question {
+  font-size: 24px;
+  color: #1a1a1a;
+  margin-bottom: 28px;
+  letter-spacing: 2px;
+}
+.root-explanation {
+  font-size: 15px;
+  color: #555;
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 2;
+}
+/* Directions */
+.dir-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.dir-card h4 { font-size: 16px; margin-bottom: 8px; }
+.dir-card p { font-size: 14px; color: #555; }
+/* Responsive */
+@media (max-width: 640px) {
+  .cover-title { font-size: 28px; letter-spacing: 4px; }
+  .cover-subtitle { font-size: 14px; letter-spacing: 4px; }
+  .cover-tagline { font-size: 16px; }
+  .section { padding: 48px 0; }
+  .section-title { font-size: 20px; }
+  .card { padding: 24px; }
+  .root-box { padding: 32px 24px; }
+  .root-question { font-size: 20px; }
+  .turning-grid { grid-template-columns: 1fr; }
+}
+/* Annotation */
+.annotation {
+  text-align: center;
+  padding: 40px 0 60px;
+  font-size: 13px;
+  color: #aaa;
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<section class="cover">
+<h1 class="cover-title">Reading Universe Archive</h1>
+<div class="cover-subtitle">2017–2026</div>
+<div class="cover-line"></div>
+<p class="cover-tagline">我如何在变化中保存一个连续的自己？</p>
+</section>
+<section class="section">
+<div class="section-number">II</div>
+<h2 class="section-title">阅读分身<br><span style="font-size:14px;color:#999;font-weight:normal;letter-spacing:2px;">Reading Doppelgangers</span></h2>
+<div class="card card-soul" style="border-left-color:#b5686a;background:#fdf2f2;">
+<div class="soul-name" style="color:#b5686a;">见证者</div>
+<div class="soul-name-en">the Witness</div>
+<p>不断通过进入他人的生命来理解世界的人。读传记、回忆录、纪实文学——不是为了消遣，而是为了亲历另一种人生。不追求情节的快感，而在意经验的密度：读李安传不是为了知道故事，是为了感受一个人如何在巨大成功中保持清醒；读波伏瓦不是为了学术，是为了见证一个女人终其一生审视自己；读茨威格是为了理解一个文明如何在一个人眼前消逝。</p>
+<p>在别人的故事里长久停留。每一本读完的传记，都是一次与另一个灵魂的长谈。对他人的生命经验保持彻底的开放——不是关于“后来发生了什么”，而是关于“那是怎样的感觉”。</p>
+<p>有一种深入的好奇心——愿意被别人的生命改变。对他人的内在世界感到真正的兴趣，这种兴趣既非窥探也非评判，而是一种安静的在场。</p>
+<div class="soul-question"><span>核心追问：</span>另一个人的生活是什么样子？</div>
+<div class="soul-books">
+<span>十年一觉电影梦</span>
+<span>清算已毕</span>
+<span>昨日的世界</span>
+<span>独自上路</span>
+<span>活着为了讲述</span>
+<span>战争中没有女性</span>
+<span>莉莉亚娜</span>
+<span>死在这里也不错</span>
+<span>夜航西飞</span>
+<span>秋园</span>
+<span>风沙星辰</span>
+<span>旅行之木</span>
+<span>老女孩</span>
+<span>江城</span>
+<span>树犹如此</span>
+<span>克拉克森的农场</span>
+<span>暮色将尽</span>
+</div>
+</div>
+<div class="card card-soul" style="border-left-color:#c4934a;background:#faf6ed;">
+<div class="soul-name" style="color:#c4934a;">倾听者</div>
+<div class="soul-name-en">the Listener</div>
+<p>在众声喧哗中反复走到沉默者身边的人。女性写作、边缘叙事、少数群体的声音——不是学术兴趣，而是一种伦理上的倾斜：总是倾向于听见弱者的声音。上野千鹤子读了17本（从私房谈话到学术著作，从生育到死亡），阿连德的愤怒与爱（79条想法——全年最高），金爱烂的日常疲倦，阿列克谢耶维奇的战争女性。</p>
+<p>最活跃的互动发生在那让他/她听见另一个人的书里。不是被动接收而是主动对话——划线少而想法多，说明在回应而非收集。这些书不是信息输入，是关系建立。</p>
+<p>有一种对沉默的敏感。在主流叙事之外寻找被忽略的频道。这种倾听不是旁观，是参与——听见别人的声音之后，就无法再假装不知道。这不是知识选择，是人格倾向。</p>
+<div class="soul-question"><span>核心追问：</span>谁的声音被淹没了？</div>
+<div class="soul-books">
+<span>我灵魂里的女性</span>
+<span>上野千鹤子的私房谈话</span>
+<span>上野千鹤子的私房谈话III</span>
+<span>盐镇</span>
+<span>岂不怀归</span>
+<span>我的母亲做保洁</span>
+<span>82年生的金智英</span>
+<span>绝叫</span>
+<span>闭经记</span>
+<span>身后无遗物</span>
+<span>巴黎评论·女性作家访谈</span>
+<span>服美役</span>
+<span>明亮的夜晚</span>
+<span>老女孩</span>
+<span>战争中没有女性</span>
+<span>莉莉亚娜不可战胜的夏天</span>
+<span>开场：女性学者访谈</span>
+<span>身为女性的选择</span>
+</div>
+</div>
+<div class="card card-soul" style="border-left-color:#7c6ba0;background:#f4f0fa;">
+<div class="soul-name" style="color:#7c6ba0;">越境者</div>
+<div class="soul-name-en">the Border Crosser</div>
+<p>对陌生不恐惧，甚至主动寻找边界的人。阅读不依赖翻译——在另一种语言里重新成为读者，不是学习语言，是选择在另一种思想体系里生活。用西班牙语读科幻（Proyecto Hail Mary——全平台阅读最久的书，25小时）、读自传（De qué hablo cuando hablo de correr）、读科普（Física para dummies）、读心理（Deberías hablar con alguien），有些书甚至在中译本之前读完。</p>
+<p>同一本书读两个语言版本（村上春树的跑步书），像是在测试自己能在另一个语言里走多远。每一次跨语言阅读都在重新经历身份的不稳定感——读西语版的你，和读中文版的你，不是同一个人。</p>
+<p>驱动越境者的不是好奇而是勇气。愿意在陌生中保持阅读能力，愿意接受“在这个语言里我不那么聪明”的事实。越境者在每一次阅读中做出选择：不退回舒适区。</p>
+<div class="soul-question"><span>核心追问：</span>边界那边有什么？</div>
+<div class="soul-books">
+<span>Los niños perdidos</span>
+<span>Yo tuve un sueño</span>
+<span>Dos soledades</span>
+<span>Mujeres del alma mía</span>
+<span>El coronel</span>
+<span>Harry Potter y el prisionero de Azkaban</span>
+<span>Proyecto Hail Mary</span>
+<span>Apuntes sobre un planeta estresado</span>
+<span>De Qué Hablo Cuando Hablo De Correr</span>
+</div>
+</div>
+<div class="card card-soul" style="border-left-color:#4a6fa5;background:#f0f4fa;">
+<div class="soul-name" style="color:#4a6fa5;">求道者</div>
+<div class="soul-name-en">the Seeker</div>
+<p>在每一本书里寻找“如何生活”答案的人——即使那本书并不是写给他的。哲学、心理学、社会批判——不是知识收集，而是一种存在的追问：我该怎么活？我选择的理由站得住吗？走出唯一真理观（211条划线+55条想法——全书最高互动数据），人生十二法则（207条划线），当下的力量（117条划线）。这些不是“喜欢的书”，而是曾经救过命的文本。</p>
+<p>带着根本问题进入阅读。而且求道者可以在任何类型中找到滋养——从陈嘉映的沉思到韩炳哲的诊断，从彼得森的人生法则到上野的私房谈话。不经过反思的阅读是不完整的。</p>
+<p>有一种无法被满足的意义饥渴。经验必须转化为意义才算完整。这种追问背后不是焦虑，而是一种认真——认真地生活需要知道自己为什么这样生活。求道者与栖息者生活在同一个读者体内，在追问的间隙里寻找修复。</p>
+<div class="soul-question"><span>核心追问：</span>我该如何生活？</div>
+<div class="soul-books">
+<span>走出唯一真理观</span>
+<span>人生十二法则</span>
+<span>当下的力量</span>
+<span>倦怠社会</span>
+<span>沉思的生活</span>
+<span>5%的改变</span>
+<span>世界作为参考答案</span>
+<span>宝贵的人生建议</span>
+<span>最优解人生</span>
+<span>目光</span>
+<span>人间值得</span>
+<span>与焦虑和解</span>
+<span>爱的五种能力</span>
+<span>何为良好生活</span>
+<span>活出生命的意义</span>
+<span>幸福课</span>
+<span>相约星期二</span>
+<span>圆圈正义</span>
+</div>
+</div>
+<div class="card card-soul" style="border-left-color:#3a8a7a;background:#f0f8f5;">
+<div class="soul-name" style="color:#3a8a7a;">解构者</div>
+<div class="soul-name-en">the Analyst</div>
+<p>不仅接受世界的样子，还要理解它为什么是这样。对叙事结构和思想系统本身着迷——拆解盒子比消费盒子更有趣。读略萨的结构迷宫六年之久（从2022到2025），还读了写作之癖和略萨谈博尔赫斯——不消费故事，是研究作者如何工作。读伊坂幸太郎的多线叙事（11本），读帕慕克的小说家心智，读项飙的社会结构分析，读韩炳哲的社会诊断。</p>
+<p>即使在娱乐时也无法关闭分析的开关。这不是冷冰冰的技术拆解，而是一种更深层的尊重——理解事物如何运作，才能理解事物为何重要。从文学结构到社会结构，解构者的目光始终在表层之下。</p>
+<p>有一种对表面的不信任。倾向于问“这是怎么造出来的”——无论面对的是小说、社会现象还是人生选择。但解构最终通向的不是虚无，而是理解之后的敬畏：知道一切有多复杂之后，仍然愿意阅读。</p>
+<div class="soul-question"><span>核心追问：</span>这是怎么造出来的？</div>
+<div class="soul-books">
+<span>略萨作品：城市与狗</span>
+<span>略萨作品：胡利娅姨妈和作家</span>
+<span>略萨作品：公羊的节日</span>
+<span>略萨作品：坏女孩的恶作剧</span>
+<span>略萨作品：潘达雷昂上尉和劳军女郎</span>
+<span>写作之癖</span>
+<span>不止魔幻</span>
+<span>献灯使</span>
+<span>石黑一雄访谈录</span>
+<span>制造消费者</span>
+<span>太阳与少女</span>
+<span>博尔赫斯：最后的访谈</span>
+<span>天真的和感伤的小说家</span>
+<span>把自己作为方法</span>
+<span>输出力</span>
+</div>
+</div>
+<div class="card card-soul" style="border-left-color:#d480aa;background:#fdf0f5;">
+<div class="soul-name" style="color:#d480aa;">栖息者</div>
+<div class="soul-name-en">the One Who Rests</div>
+<p>知道什么时候需要停下来的人。在文字中寻找庇护——阅读不是为了获取什么，而是为了回到一个安全的地方。根西岛文学与土豆皮馅饼俱乐部（47条想法——全年第三高互动，但这是一本温暖治愈的小书）、三浦紫苑的认真与温柔（编舟记、强风吹拂）、村上春树的日常碎碎念（爱吃沙拉的狮子、大萝卜和难挑的鳄梨）、森见登美彦的太阳与少女、吉卜力的造梦者们的幕后故事。</p>
+<p>不质问，不分析，只是陪伴。与求道者完全相反——不是找问题，是找安慰。读这些书的时候不需要成长、不需要顿悟、不需要改变，只需要感到安全。</p>
+<p>栖息者与求道者生活在同一个读者体内，这是一个重要的结构性事实。在持续性追问和结构性分析带来的疲惫之后，需要修复性的阅读来恢复。这不是逃避，是生存策略——知道什么时候需要停下来的人，才能持续地走下去。</p>
+<div class="soul-question"><span>核心追问：</span>哪里可以让我停下来？</div>
+<div class="soul-books">
+<span>根西岛文学与土豆皮馅饼俱乐部</span>
+<span>太阳与少女</span>
+<span>爱吃沙拉的狮子</span>
+<span>大萝卜和难挑的鳄梨</span>
+<span>编舟记</span>
+<span>哪啊哪啊神去村</span>
+<span>强风吹拂</span>
+<span>生活蒙太奇</span>
+<span>吉卜力的天才们</span>
+<span>焦虑的人</span>
+<span>我的天才朋友</span>
+<span>当值神明</span>
+<span>四叠半神话大系</span>
+<span>太白金星有点烦</span>
+<span>克拉克森的农场</span>
+<span>奥斯卡与玫瑰奶奶</span>
+<span>一个人的小繁华</span>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="section-number">III</div>
+<h2 class="section-title">人生地层<br><span style="font-size:14px;color:#999;font-weight:normal;letter-spacing:2px;">Life Stratum</span></h2>
+<p style="text-align:center;margin-bottom:36px;font-size:14px;color:#888;font-style:italic;">阅读的七个阶段，自下而上，从沉淀到浮现</p>
+<div class="stratum stratum-0">
+<div class="layer-label">2026 H1 — 149天(半年) · 133h</div>
+<div class="layer-title">Layer 7 / 纪实转向</div>
+<div class="layer-desc">纪实小说跃居第2。非虚构占比70%。</div>
+</div>
+<div class="stratum stratum-1">
+<div class="layer-label">2025 — 358天 · 300h</div>
+<div class="layer-title">Layer 6 / 重建期</div>
+<div class="layer-desc">文学历史最高(127h)。非虚构+传记结构性增长。</div>
+</div>
+<div class="stratum stratum-2">
+<div class="layer-label">2024 — 352天 · 230h(最低)</div>
+<div class="layer-title">Layer 5 / 回落期</div>
+<div class="layer-desc">笔记率上升。西语原版阅读形成规模。</div>
+</div>
+<div class="stratum stratum-3">
+<div class="layer-label">2023 — 360天(98.6%) · 360h</div>
+<div class="layer-title">Layer 4 / 扩张期</div>
+<div class="layer-desc">广度峰值。历史分类唯一进前3, 社会文化+282%。</div>
+</div>
+<div class="stratum stratum-4">
+<div class="layer-label">2022 — 339天 · 239h</div>
+<div class="layer-title">Layer 3 / 调整期</div>
+<div class="layer-desc">时长腰斩但习惯未断。类型小说收缩, 拉美文学兴起。</div>
+</div>
+<div class="stratum stratum-5">
+<div class="layer-label">2021 — 349天 · 464h</div>
+<div class="layer-title">Layer 2 / 爆发期</div>
+<div class="layer-desc">阅读量高峰。悬疑推理爆发(+288%), 哈利波特系列集中阅读。</div>
+</div>
+<div class="stratum stratum-6">
+<div class="layer-label">2020 — 259天 · 338h</div>
+<div class="layer-title">Layer 1 / 奠基期</div>
+<div class="layer-desc">习惯形成。文学+科幻+个人成长混合探索。</div>
+</div>
+</section>
+<section class="section">
+<div class="section-number">IV</div>
+<h2 class="section-title">问题考古学<br><span style="font-size:14px;color:#999;font-weight:normal;letter-spacing:2px;">Question Archaeology</span></h2>
+<p style="text-align:center;margin-bottom:36px;font-size:14px;color:#888;font-style:italic;">驱动阅读之旅的五个长期问题，考古发掘的珍贵遗存</p>
+<div class="find">
+<div class="find-q">边界那边有什么？</div>
+<div class="find-meta">所属灵魂：越境者 · 出现时间：2021年 · 贯穿至今</div>
+<div class="find-desc">跨语言、跨文化的好奇。从Harry Potter西语版开始，到Proyecto Hail Mary的25小时沉浸阅读。每一次跨语言阅读都在问：用另一种语言思考的我，和原来的我是同一个人吗？这个问题没有答案，但每一次提问都拓宽了世界的边界。</div>
+</div>
+<div class="find">
+<div class="find-q">另一个人的生活是什么样子？</div>
+<div class="find-meta">所属灵魂：见证者 · 出现时间：2020年 · 贯穿至今</div>
+<div class="find-desc">对他者生命经验的好奇。从江城开始，进入一个又一个他者的世界。传记和纪实文学不是关于“后来发生了什么”，而是关于“那是怎样的感觉”。这个问题驱使读者在7年间穿越了数十种人生。</div>
+</div>
+<div class="find">
+<div class="find-q">谁的声音被淹没了？</div>
+<div class="find-meta">所属灵魂：倾听者 · 出现时间：2022年 · 贯穿至今</div>
+<div class="find-desc">对边缘和沉默的敏感。始于上野千鹤子，延伸到女性写作、边缘叙事、少数群体的声音。这不是学术兴趣，而是一种伦理上的倾斜——总是倾向于听见弱者的声音。越听越清楚，越清楚越无法转身离开。</div>
+</div>
+<div class="find">
+<div class="find-q">我该如何生活？</div>
+<div class="find-meta">所属灵魂：求道者 · 出现时间：2020年 · 贯穿至今</div>
+<div class="find-desc">对意义和价值的根本追问。走出唯一真理观、人生十二法则、当下的力量——这些书被反复阅读、密集划线，因为它们回应了一个最根本的问题。这个问题没有终极答案，但每一次追问都让生活变得更加自觉。</div>
+</div>
+<div class="find">
+<div class="find-q">这是怎么造出来的？</div>
+<div class="find-meta">所属灵魂：解构者 · 出现时间：2021年 · 贯穿至今</div>
+<div class="find-desc">对结构和系统的拆解欲。从略萨的文学结构迷宫到项飙的社会结构分析，从韩炳哲的社会诊断到制造消费者的消费系统解剖。拆解不是为了破坏，而是为了理解之后的敬畏。</div>
+</div>
+</section>
+<section class="section">
+<div class="section-number">V</div>
+<h2 class="section-title">阅读转折点<br><span style="font-size:14px;color:#999;font-weight:normal;letter-spacing:2px;">Reading Turning Points</span></h2>
+<p style="text-align:center;margin-bottom:36px;font-size:14px;color:#888;font-style:italic;">八本书，八个方向改变的瞬间</p>
+<div class="turning">
+<h4>《走出唯一真理观》</h4>
+<div class="turning-meta">2020, A级</div>
+<div class="turning-grid">
+<div class="turning-item"><h5>Before</h5><p>阅读以文学小说为主，消费性阅读</p></div>
+<div class="turning-item"><h5>The Shift</h5><p>第一次将哲学思考引入阅读，阅读不再只是消费故事</p></div>
+<div class="turning-item"><h5>After</h5><p>阅读从消费变成意义追寻</p></div>
+<div class="turning-item"><h5>What Was Opened</h5><p>求道者灵魂的觉醒</p></div>
+</div>
+</div>
+<div class="turning">
+<h4>Harry Potter y el cáliz de fuego</h4>
+<div class="turning-meta">2021, A级</div>
+<div class="turning-grid">
+<div class="turning-item"><h5>Before</h5><p>阅读完全依赖中文翻译</p></div>
+<div class="turning-item"><h5>The Shift</h5><p>第一次完整读完一本西语原版书</p></div>
+<div class="turning-item"><h5>After</h5><p>跨语言阅读的种子</p></div>
+<div class="turning-item"><h5>What Was Opened</h5><p>越境者可能性的发现</p></div>
+</div>
+</div>
+<div class="turning">
+<h4>《江城》</h4>
+<div class="turning-meta">2021, A级</div>
+<div class="turning-grid">
+<div class="turning-item"><h5>Before</h5><p>阅读以虚构文学为主</p></div>
+<div class="turning-item"><h5>The Shift</h5><p>第一次被非虚构作品深深打动</p></div>
+<div class="turning-item"><h5>After</h5><p>纪实非虚构的进入</p></div>
+<div class="turning-item"><h5>What Was Opened</h5><p>见证者灵魂的觉醒</p></div>
+</div>
+</div>
+<div class="turning">
+<h4>略萨系列</h4>
+<div class="turning-meta">2022, A级</div>
+<div class="turning-grid">
+<div class="turning-item"><h5>Before</h5><p>阅读以类型小说为主</p></div>
+<div class="turning-item"><h5>The Shift</h5><p>第一次系统阅读拉美文学，关注叙事结构本身</p></div>
+<div class="turning-item"><h5>After</h5><p>拉美文学+结构分析的开启</p></div>
+<div class="turning-item"><h5>What Was Opened</h5><p>解构者灵魂的觉醒</p></div>
+</div>
+</div>
+<div class="turning">
+<h4>上野千鹤子系列</h4>
+<div class="turning-meta">2022, A级</div>
+<div class="turning-grid">
+<div class="turning-item"><h5>Before</h5><p>女性议题不是阅读主线</p></div>
+<div class="turning-item"><h5>The Shift</h5><p>从私房谈话到学术著作，系统性阅读女性主义</p></div>
+<div class="turning-item"><h5>After</h5><p>女性主义思想的进入</p></div>
+<div class="turning-item"><h5>What Was Opened</h5><p>倾听者灵魂的觉醒</p></div>
+</div>
+</div>
+<div class="turning">
+<h4>Proyecto Hail Mary</h4>
+<div class="turning-meta">2024, A级</div>
+<div class="turning-grid">
+<div class="turning-item"><h5>Before</h5><p>西语阅读停留在少量练习</p></div>
+<div class="turning-item"><h5>The Shift</h5><p>25小时沉浸阅读，跨语言阅读能力的质变</p></div>
+<div class="turning-item"><h5>After</h5><p>跨语言阅读的确立</p></div>
+<div class="turning-item"><h5>What Was Opened</h5><p>越境者的成熟</p></div>
+</div>
+</div>
+<div class="turning">
+<h4>《我灵魂里的女性》</h4>
+<div class="turning-meta">2025, A级</div>
+<div class="turning-grid">
+<div class="turning-item"><h5>Before</h5><p>女性阅读偏学术和分析</p></div>
+<div class="turning-item"><h5>The Shift</h5><p>阿连德的愤怒与爱——79条想法，全年最高互动</p></div>
+<div class="turning-item"><h5>After</h5><p>女性阅读从知识到情感</p></div>
+<div class="turning-item"><h5>What Was Opened</h5><p>倾听者与见证者的汇流</p></div>
+</div>
+</div>
+<div class="turning">
+<h4>《莉莉亚娜不可战胜的夏天》</h4>
+<div class="turning-meta">2026, A级</div>
+<div class="turning-grid">
+<div class="turning-item"><h5>Before</h5><p>不同类型分散阅读</p></div>
+<div class="turning-item"><h5>The Shift</h5><p>一部书同时激活了四个灵魂的共鸣</p></div>
+<div class="turning-item"><h5>After</h5><p>四个灵魂的汇流</p></div>
+<div class="turning-item"><h5>What Was Opened</h5><p>跨类型纪实的新方向</p></div>
+</div>
+</div>
+</section>
+<section class="section">
+<div class="section-number">VI</div>
+<h2 class="section-title">根本问题<br><span style="font-size:14px;color:#999;font-weight:normal;letter-spacing:2px;">The Root Question</span></h2>
+<div class="root-box">
+<div class="root-question">我如何在变化中保存一个连续的自己？</div>
+<div class="root-line" style="width:40px;height:1px;background:#ddd;margin:0 auto 28px;"></div>
+<div class="root-explanation">
+2020年开始阅读时，这个问题并不存在。7年之后，经过6个灵魂的轮流登场、8个转折点的偏转、89本已读书籍的累积，问题变得清晰：跨越语言、跨越类型、跨越身份——这些变化中，什么是不变的？
+<br><br>
+阅读不是寻找答案，阅读是保存问问题的那个人。
+</div>
+</div>
+</section>
+<section class="section">
+<div class="section-number">VII</div>
+<h2 class="section-title">仍在生长<br><span style="font-size:14px;color:#999;font-weight:normal;letter-spacing:2px;">Still Growing</span></h2>
+<div class="dir-card">
+<h4>纪实与虚构的融合阅读</h4>
+<p>莉莉亚娜之后，跨类型纪实成为新方向。不再区分纪实与虚构，而是在交叉地带寻找新的阅读经验。纪实提供现实的重量，虚构提供想象的自由——两者的融合或许是未来阅读最富生命力的领域。</p>
+</div>
+<div class="dir-card">
+<h4>西语阅读的进一步深化</h4>
+<p>从阅读到思考的西语化。不再满足于读懂，而是尝试用西语思考、做笔记、建立知识体系。Proyecto Hail Mary证明了跨语言阅读的可能性，下一步是让西语成为第二阅读母语。</p>
+</div>
+<div class="dir-card">
+<h4>四个灵魂的协同</h4>
+<p>见证+倾听+解构+越境的汇流刚刚开始。莉莉亚娜之后，这四个灵魂不再轮流出场，而是开始同时工作。一本好的书将同时满足见证者的同理心、倾听者的敏感、解构者的分析欲和越境者的冒险精神。</p>
+</div>
+<div class="dir-card">
+<h4>栖息者的持续存在</h4>
+<p>作为求道者的必要平衡。栖息者与求道者生活在同一个读者体内——在持续的追问和结构分析之后，修复性的阅读将继续存在。这不是逃避，而是让阅读可持续的生存策略。</p>
+</div>
+</section>
+<div class="annotation">
+Reading Universe Archive &middot; 2017–2026
+</div>
+</div>
+</body>
+</html>

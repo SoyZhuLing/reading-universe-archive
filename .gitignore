@@ -1,0 +1,28 @@
+# 原始微信读书数据
+
+notebooks_p*.json
+weread_notebooks.json
+
+bookmark_*.json
+review_*.json
+
+bookmarks/
+reviews/
+notebooks/
+merged/
+shelf/
+stats/
+
+# Python
+
+**pycache**/
+*.pyc
+
+# Windows
+
+Thumbs.db
+Desktop.ini
+
+# Mac
+
+.DS_Store
